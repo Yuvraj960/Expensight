@@ -26,6 +26,13 @@ const UIManager = {
             // Header
             usernameDisplay: document.getElementById('username-display'),
             logoutBtn: document.getElementById('logout-btn'),
+
+            // Notification & Modal
+            notification: document.getElementById('notification'),
+            confirmDialog: document.getElementById('confirm-dialog'),
+            confirmMessage: document.getElementById('confirm-message'),
+            confirmYes: document.getElementById('confirm-yes'),
+            confirmNo: document.getElementById('confirm-no')
             };
     },
 
@@ -64,5 +71,45 @@ const UIManager = {
         this.elements.signupUsername.value = '';
         this.elements.signupPassword.value = '';
         this.elements.signupConfirm.value = '';
+    },
+
+    showNotification(message, type = 'info') {
+        this.elements.notification.textContent = message;
+        this.elements.notification.className = `notification ${type}`;
+        this.elements.notification.classList.remove('hidden');
+
+        setTimeout(() => {
+            this.elements.notification.classList.add('hidden');
+        }, 3000);
+    },
+
+    showConfirmDialog(message, onConfirm) {
+        this.elements.confirmMessage.textContent = message;
+        this.elements.confirmDialog.classList.remove('hidden');
+
+        const handleYes = () => {
+            onConfirm();
+            this.hideConfirmDialog();
+        };
+
+        const handleNo = () => {
+            this.hideConfirmDialog();
+        };
+
+        this.elements.confirmYes.onclick = handleYes;
+        this.elements.confirmNo.onclick = handleNo;
+    },
+
+    hideConfirmDialog() {
+        this.elements.confirmDialog.classList.add('hidden');
+    },
+
+    updateUserDisplay(username) {
+        this.elements.usernameDisplay.textContent = `Welcome, ${username}`;
+    },
+
+    setTodayDate() {
+        const today = new Date().toISOString().split('T')[0];
+        this.elements.expenseDate.value = today;
     },
 };
