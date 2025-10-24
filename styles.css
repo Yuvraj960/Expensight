@@ -29,7 +29,6 @@ body {
     min-height: 100vh;
 }
 
-
 /* Utility Classes */
 .hidden {
     display: none !important;
@@ -44,7 +43,6 @@ body {
 .page {
     min-height: 100vh;
 }
-
 
 /* Header */
 .header {
@@ -67,6 +65,16 @@ body {
     color: var(--primary-color);
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.username {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
 
 /* Authentication Page */
 .auth-container {

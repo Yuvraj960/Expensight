@@ -43,6 +43,10 @@ const App = {
             e.preventDefault();
             this.handleSignup();
         });
+
+        UIManager.elements.logoutBtn.addEventListener('click', () => {
+            this.handleLogout();
+        });
     },
 
     handleLogin() {
@@ -81,6 +85,15 @@ const App = {
                 UIManager.showLoginForm();
             }, 1000);
         }
+    },
+
+    handleLogout() {
+        UIManager.showConfirmDialog('Are you sure you want to logout?', () => {
+            AuthManager.logout();
+            UIManager.showNotification('Logged out successfully', 'info');
+            UIManager.showAuthPage();
+            UIManager.showLoginForm();
+        });
     },
 };
 
