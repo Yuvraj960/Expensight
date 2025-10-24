@@ -47,6 +47,28 @@ const App = {
         UIManager.elements.logoutBtn.addEventListener('click', () => {
             this.handleLogout();
         });
+
+        // Expense form
+        UIManager.elements.expenseForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.handleExpenseSubmit();
+        });
+
+        UIManager.elements.cancelEditBtn.addEventListener('click', () => {
+            UIManager.clearExpenseForm();
+        });
+
+
+        // Delegate events for expense list
+        UIManager.elements.expensesList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('edit-btn')) {
+                const id = e.target.dataset.id;
+                this.handleEdit(id);
+            } else if (e.target.classList.contains('delete-btn')) {
+                const id = e.target.dataset.id;
+                this.handleDelete(id);
+            }
+        });
     },
 
     handleLogin() {
@@ -93,6 +115,52 @@ const App = {
             UIManager.showNotification('Logged out successfully', 'info');
             UIManager.showAuthPage();
             UIManager.showLoginForm();
+        });
+    },
+
+    handleExpenseSubmit() {
+        const id = UIManager.elements.expenseId.value;
+        const name = UIManager.elements.expenseName.value;
+        const amount = UIManager.elements.expenseAmount.value;
+        const category = UIManager.elements.expenseCategory.value;
+        const date = UIManager.elements.expenseDate.value;
+
+        if (!name || !amount || !category || !date) {
+            UIManager.showNotification('Please fill all fields', 'error');
+            return;
+        }
+
+        if (parseFloat(amount) <= 0) {
+            UIManager.showNotification('Amount must be greater than 0', 'error');
+            return;
+        }
+
+        if (id) {
+            // Update existing expense
+            ExpenseManager.updateExpense(id, name, amount, category, date);
+            UIManager.showNotification('Expense updated successfully', 'success');
+        } else {
+            // Add new expense
+            ExpenseManager.addExpense(name, amount, category, date);
+            UIManager.showNotification('Expense added successfully', 'success');
+        }
+
+        UIManager.clearExpenseForm();
+        this.refreshExpenses();
+    },
+
+    handleEdit(id) {
+        const expense = ExpenseManager.getExpenseById(id);
+        if (expense) {
+            UIManager.populateExpenseForm(expense);
+        }
+    },
+
+    handleDelete(id) {
+        UIManager.showConfirmDialog('Are you sure you want to delete this expense?', () => {
+            ExpenseManager.deleteExpense(id);
+            UIManager.showNotification('Expense deleted successfully', 'success');
+            this.refreshExpenses();
         });
     },
 };

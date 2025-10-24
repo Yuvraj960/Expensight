@@ -27,6 +27,24 @@ const UIManager = {
             usernameDisplay: document.getElementById('username-display'),
             logoutBtn: document.getElementById('logout-btn'),
 
+            // Summary
+            totalAmount: document.getElementById('total-amount'),
+            totalCount: document.getElementById('total-count'),
+
+            // Expense form
+            expenseForm: document.getElementById('expense-form'),
+            expenseName: document.getElementById('expense-name'),
+            expenseAmount: document.getElementById('expense-amount'),
+            expenseCategory: document.getElementById('expense-category'),
+            expenseDate: document.getElementById('expense-date'),
+            expenseId: document.getElementById('expense-id'),
+            submitBtn: document.getElementById('submit-btn'),
+            cancelEditBtn: document.getElementById('cancel-edit-btn'),
+
+            // Lists
+            expensesList: document.getElementById('expenses-list'),
+            categoryBreakdown: document.getElementById('category-breakdown'),
+
             // Notification & Modal
             notification: document.getElementById('notification'),
             confirmDialog: document.getElementById('confirm-dialog'),
@@ -112,4 +130,64 @@ const UIManager = {
         const today = new Date().toISOString().split('T')[0];
         this.elements.expenseDate.value = today;
     },
+
+    clearExpenseForm() {
+        this.elements.expenseForm.reset();
+        this.elements.expenseId.value = '';
+        this.elements.submitBtn.textContent = 'Add Expense';
+        this.elements.cancelEditBtn.classList.add('hidden');
+        this.setTodayDate();
+    },
+
+    populateExpenseForm(expense) {
+        this.elements.expenseId.value = expense.id;
+        this.elements.expenseName.value = expense.name;
+        this.elements.expenseAmount.value = expense.amount;
+        this.elements.expenseCategory.value = expense.category;
+        this.elements.expenseDate.value = expense.date;
+        this.elements.submitBtn.textContent = 'Update Expense';
+        this.elements.cancelEditBtn.classList.remove('hidden');
+
+        // Scroll to form
+        this.elements.expenseForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    },
+
+    updateSummary(total, count) {
+        this.elements.totalAmount.textContent = `₹${total.toFixed(2)}`;
+        this.elements.totalCount.textContent = count;
+    },
+
+    renderExpensesList(expenses) {
+        if (expenses.length === 0) {
+            this.elements.expensesList.innerHTML = '<p class="empty-state">No expenses found. Try adjusting your filters or add a new expense!</p>';
+            return;
+        }
+
+        const html = expenses.map(expense => `
+            <div class="expense-item" data-id="${expense.id}">
+                <div class="expense-info">
+                    <h4>${expense.name}</h4>
+                    <div class="expense-details">
+                        <span class="expense-category">${expense.category}</span>
+                        <span>📅 ${this.formatDate(expense.date)}</span>
+                    </div>
+                </div>
+                <div>
+                    <div class="expense-amount">₹${expense.amount.toFixed(2)}</div>
+                    <div class="expense-actions">
+                        <button class="btn btn-small btn-secondary edit-btn" data-id="${expense.id}">Edit</button>
+                        <button class="btn btn-small btn-danger delete-btn" data-id="${expense.id}">Delete</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        this.elements.expensesList.innerHTML = html;
+    },
+
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return date.toLocaleDateString('en-IN', options);
+    }
 };
