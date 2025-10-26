@@ -400,6 +400,7 @@ body {
         transform: translateX(400px);
         opacity: 0;
     }
+
     to {
         transform: translateX(0);
         opacity: 1;
@@ -455,4 +456,72 @@ body {
     display: flex;
     gap: 1rem;
     justify-content: flex-end;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-section {
+        grid-template-columns: 1fr;
+    }
+
+    .expense-item {
+        grid-template-columns: 1fr;
+    }
+
+    .expense-actions {
+        justify-content: flex-start;
+    }
+
+    .header .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .summary-section {
+        grid-template-columns: 1fr;
+    }
+
+    .notification {
+        right: 1rem;
+        left: 1rem;
+        top: 1rem;
+    }
+
+    .auth-form {
+        padding: 1.5rem;
+    }
+
+    .expense-form .form-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.25rem;
+    }
+
+    .btn {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.875rem;
+    }
+
+    .card {
+        padding: 1rem;
+    }
+
+    .total-amount,
+    .total-count {
+        font-size: 1.5rem;
+    }
 }
