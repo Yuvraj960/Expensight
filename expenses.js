@@ -64,15 +64,15 @@ const ExpenseManager = {
             return this.expenses;
         }
         const lowerQuery = query.toLowerCase();
-        return this.expenses.filter(exp => 
+        return this.expenses.filter(exp =>
             exp.name.toLowerCase().includes(lowerQuery)
         );
     },
 
     sortExpenses(expenses, sortBy) {
         const sorted = [...expenses];
-        
-        switch(sortBy) {
+
+        switch (sortBy) {
             case 'date-desc':
                 sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
                 break;
@@ -89,7 +89,7 @@ const ExpenseManager = {
                 sorted.sort((a, b) => a.name.localeCompare(b.name));
                 break;
         }
-        
+
         return sorted;
     },
 
@@ -99,7 +99,7 @@ const ExpenseManager = {
 
     getCategoryBreakdown() {
         const breakdown = {};
-        
+
         this.expenses.forEach(exp => {
             if (!breakdown[exp.category]) {
                 breakdown[exp.category] = {

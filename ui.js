@@ -192,7 +192,7 @@ const UIManager = {
 
     renderCategoryBreakdown(breakdown) {
         const categories = Object.keys(breakdown);
-        
+
         if (categories.length === 0) {
             this.elements.categoryBreakdown.innerHTML = '<p class="empty-state">No data available</p>';
             return;

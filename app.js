@@ -88,7 +88,7 @@ const App = {
         const password = UIManager.elements.loginPassword.value;
 
         const result = AuthManager.login(username, password);
-        
+
         if (result.success) {
             UIManager.showNotification(result.message, 'success');
             setTimeout(() => {
@@ -105,14 +105,14 @@ const App = {
         const confirmPassword = UIManager.elements.signupConfirm.value;
 
         const validation = AuthManager.validateSignup(username, password, confirmPassword);
-        
+
         if (!validation.valid) {
             UIManager.showError(UIManager.elements.signupError, validation.message);
             return;
         }
 
         const result = AuthManager.signup(username, password);
-        
+
         if (result.success) {
             UIManager.showNotification(result.message, 'success');
             setTimeout(() => {
@@ -188,7 +188,7 @@ const App = {
         );
 
         UIManager.renderExpensesList(filteredExpenses);
-        
+
         const total = ExpenseManager.calculateTotal();
         const count = ExpenseManager.expenses.length;
         UIManager.updateSummary(total, count);
