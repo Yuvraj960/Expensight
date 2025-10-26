@@ -256,6 +256,18 @@ body {
     margin-top: 1.5rem;
 }
 
+.expense-form .form-actions .btn {
+    flex: 1;
+}
+
+
+/* Filter Section */
+.filter-section {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1rem;
+}
+
 
 /* Expenses List */
 .expenses-list {
@@ -309,6 +321,43 @@ body {
 .expense-actions {
     display: flex;
     gap: 0.5rem;
+}
+
+
+/* Category Breakdown */
+.category-breakdown {
+    display: grid;
+    gap: 1rem;
+}
+
+.category-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--bg-color);
+    border-radius: 8px;
+}
+
+.category-item-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.category-name {
+    font-weight: 600;
+}
+
+.category-count {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.category-amount {
+    font-weight: 700;
+    color: var(--primary-color);
+    font-size: 1.125rem;
 }
 
 
@@ -368,6 +417,7 @@ body {
 .notification.info {
     background-color: var(--primary-color);
 }
+
 
 /* Modal */
 .modal {

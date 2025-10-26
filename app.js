@@ -58,6 +58,18 @@ const App = {
             UIManager.clearExpenseForm();
         });
 
+        // Filters
+        UIManager.elements.searchInput.addEventListener('input', () => {
+            this.refreshExpenses();
+        });
+
+        UIManager.elements.filterCategory.addEventListener('change', () => {
+            this.refreshExpenses();
+        });
+
+        UIManager.elements.sortBy.addEventListener('change', () => {
+            this.refreshExpenses();
+        });
 
         // Delegate events for expense list
         UIManager.elements.expensesList.addEventListener('click', (e) => {
@@ -163,6 +175,27 @@ const App = {
             this.refreshExpenses();
         });
     },
+
+    refreshExpenses() {
+        const searchQuery = UIManager.elements.searchInput.value;
+        const filterCategory = UIManager.elements.filterCategory.value;
+        const sortBy = UIManager.elements.sortBy.value;
+
+        const filteredExpenses = ExpenseManager.getFilteredAndSortedExpenses(
+            searchQuery,
+            filterCategory,
+            sortBy
+        );
+
+        UIManager.renderExpensesList(filteredExpenses);
+        
+        const total = ExpenseManager.calculateTotal();
+        const count = ExpenseManager.expenses.length;
+        UIManager.updateSummary(total, count);
+
+        const breakdown = ExpenseManager.getCategoryBreakdown();
+        UIManager.renderCategoryBreakdown(breakdown);
+    }
 };
 
 // Initialize app when DOM is loaded

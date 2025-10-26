@@ -95,5 +95,41 @@ const ExpenseManager = {
 
     calculateTotal(expenses = this.expenses) {
         return expenses.reduce((total, exp) => total + exp.amount, 0);
+    },
+
+    getCategoryBreakdown() {
+        const breakdown = {};
+        
+        this.expenses.forEach(exp => {
+            if (!breakdown[exp.category]) {
+                breakdown[exp.category] = {
+                    total: 0,
+                    count: 0
+                };
+            }
+            breakdown[exp.category].total += exp.amount;
+            breakdown[exp.category].count += 1;
+        });
+
+        return breakdown;
+    },
+
+    getFilteredAndSortedExpenses(searchQuery, filterCategory, sortBy) {
+        let filtered = this.expenses;
+
+        // Apply search
+        if (searchQuery) {
+            filtered = this.searchExpenses(searchQuery);
+        }
+
+        // Apply category filter
+        if (filterCategory) {
+            filtered = filtered.filter(exp => exp.category === filterCategory);
+        }
+
+        // Apply sorting
+        filtered = this.sortExpenses(filtered, sortBy);
+
+        return filtered;
     }
 };

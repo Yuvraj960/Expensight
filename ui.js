@@ -41,6 +41,11 @@ const UIManager = {
             submitBtn: document.getElementById('submit-btn'),
             cancelEditBtn: document.getElementById('cancel-edit-btn'),
 
+            // Filters
+            searchInput: document.getElementById('search-input'),
+            filterCategory: document.getElementById('filter-category'),
+            sortBy: document.getElementById('sort-by'),
+
             // Lists
             expensesList: document.getElementById('expenses-list'),
             categoryBreakdown: document.getElementById('category-breakdown'),
@@ -51,7 +56,7 @@ const UIManager = {
             confirmMessage: document.getElementById('confirm-message'),
             confirmYes: document.getElementById('confirm-yes'),
             confirmNo: document.getElementById('confirm-no')
-            };
+        };
     },
 
     showAuthPage() {
@@ -183,6 +188,32 @@ const UIManager = {
         `).join('');
 
         this.elements.expensesList.innerHTML = html;
+    },
+
+    renderCategoryBreakdown(breakdown) {
+        const categories = Object.keys(breakdown);
+        
+        if (categories.length === 0) {
+            this.elements.categoryBreakdown.innerHTML = '<p class="empty-state">No data available</p>';
+            return;
+        }
+
+        // Sort by total amount descending
+        categories.sort((a, b) => breakdown[b].total - breakdown[a].total);
+
+        const html = categories.map(category => `
+            <div class="category-item">
+                <div class="category-item-left">
+                    <div>
+                        <div class="category-name">${category}</div>
+                        <div class="category-count">${breakdown[category].count} transaction${breakdown[category].count > 1 ? 's' : ''}</div>
+                    </div>
+                </div>
+                <div class="category-amount">₹${breakdown[category].total.toFixed(2)}</div>
+            </div>
+        `).join('');
+
+        this.elements.categoryBreakdown.innerHTML = html;
     },
 
     formatDate(dateString) {
